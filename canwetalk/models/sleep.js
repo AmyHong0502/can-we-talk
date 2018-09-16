@@ -6,6 +6,10 @@ let Sleep = mongoose.model('sleep', {
     minlength: 1,
     trim: true,
     required: true
+  },
+  hours: {
+    type: Number,
+    required: true
   }
 });
 
