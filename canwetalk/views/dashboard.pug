@@ -3,54 +3,20 @@ extends layout
 block content
   canvas#myChart(width="400" height="400")
 
+  p#json-data(style='visibility: hidden;')= JSON.stringify(data, undefined, 2)
+
   script(src='javascripts/chartjs/Chart.bundle.js')
   script(src='javascripts/chartjs/Chart.bundle.min.js')
 
   script.
-    var ctx = document.getElementById("myChart").getContext('2d');
-    var myChart = new Chart(ctx, {
+    const jsonData = JSON.parse(document.getElementById('json-data').innerHTML);
+
+    let ctx = document.getElementById("myChart").getContext('2d');
+    let newChart = {
       type: 'line',
       data: {
-        labels: ["1", "2", "3", "4", "5", "6"],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }, {
-          label: '# of EEE',
-          data: [10, 8, 4, 7, 6, 9],
-          backgroundColor: [
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
+        labels: [],
+        datasets: []
       },
       options: {
         scales: {
@@ -61,4 +27,35 @@ block content
           }]
         }
       }
-    });
+    };
+
+    let sleep = {
+      label: 'Sleep',
+      data: [],
+      backgroundColor: 'rgba(255, 159, 64, 0.2)',
+      borderColor: 'rgba(255, 159, 64, 1)',
+      borderWidth: 1
+    }
+
+    let exercise = {
+      label: 'Exercise',
+      data: [],
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1
+    }
+
+    for (let i = 0; i < jsonData.sleep.length; i++) {
+      let date = new Date(parseInt((jsonData.sleep[i]._id).substring(0, 8), 16) * 1000).getDate();
+
+      newChart.data.labels.push(date);
+
+      sleep.data.push(jsonData.sleep[i].hours);
+      exercise.data.push(jsonData.exercise[i].hours);
+    }
+
+    newChart.data.datasets.push(sleep);
+    newChart.data.datasets.push(exercise);
+    console.log(JSON.stringify(newChart, undefined, 2));
+
+    let myChart = new Chart(ctx, newChart);
