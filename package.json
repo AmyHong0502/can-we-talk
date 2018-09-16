@@ -16,6 +16,9 @@
     "url": "https://github.com/AmyHong0502/Lumohacks/issues"
   },
   "homepage": "https://github.com/AmyHong0502/Lumohacks#readme",
+  "engines": {
+    "node": "10.10.0"
+  },
   "dependencies": {
     "express": "^4.16.3"
   }
