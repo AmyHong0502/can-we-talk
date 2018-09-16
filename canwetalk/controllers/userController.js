@@ -16,3 +16,9 @@ exports.create_user = (req, res) => {
     return res.status(400).render('error', e);
   });
 };
+
+exports.find_user_by_userId = (req, res) => {
+  User.findOne({userId: req.body.userId}).then((user) => {
+    return res.send(user);
+  });
+};

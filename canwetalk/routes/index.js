@@ -12,4 +12,8 @@ router.post('/user/create', (req, res) => {
   userController.create_user(req, res);
 });
 
+router.post('/user/findUserByUserId', (req, res) => {
+  userController.find_user_by_userId(req, res);
+});
+
 module.exports = router;
