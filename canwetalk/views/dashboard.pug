@@ -1,9 +1,48 @@
 extends layout
 
 block content
-  canvas#myChart(width="400" height="400")
-
   p#json-data(style='visibility: hidden;')= JSON.stringify(data, undefined, 2)
+
+  h1.site-heading.text-center.text-white.d-none.d-lg-block
+    span.site-heading-upper.text-primary.mb-3 A Voice Skill to Help You
+    span.site-heading-lower #CANWETALK
+  // Navigation
+  nav#mainNav.navbar.navbar-expand-lg.navbar-dark.py-lg-4
+    .container
+      a.navbar-brand.text-uppercase.text-expanded.font-weight-bold.d-lg-none(href='#') Start Bootstrap
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarResponsive', aria-controls='navbarResponsive', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      #navbarResponsive.collapse.navbar-collapse
+        ul.navbar-nav.mx-auto
+          li.nav-item.active.px-lg-4
+            a.nav-link.text-uppercase.text-expanded(href='/')
+              | Home
+              span.sr-only (current)
+          li.nav-item.px-lg-4
+            a.nav-link.text-uppercase.text-expanded(href='/dashboard') Dashboard
+  section.page-section.clearfix
+    div.container
+      div.intro
+        div.row
+          div.col-md-6
+            div.intro-button.mx-auto
+          div.col-md-6
+  div.row
+    div.col-md-6
+      section.page-section.cta
+        div.col-xl-9.mx-auto
+          div.cta-inner.text-center.rounded
+            h2.section-heading.mb-4
+              span.section-heading-upper Team Teddy
+              span.section-heading-lower About Us
+            p.mb-0
+              | Hello, we are students from BCIT computing program. We wanted to create an web-app that would help people who suffer from extreme depression. As a result, we came up with the idea #CANWETALK. #CANWETALK is basically a website with Google Assistance(voice skill) where users could communicate with our special agent Teddy. This way, people could easily record their daily exercise and sleeping hours and also, could view the charts on the website in their own dashboard.
+
+    div.col-md-6(style='background-color: #EEE;')
+      canvas#myChart(width="400" height="400")
+  footer.footer.text-faded.text-center.py-5
+    .container
+      p.m-0.small Copyright © Can we talk 2018
 
   script(src='javascripts/chartjs/Chart.bundle.js')
   script(src='javascripts/chartjs/Chart.bundle.min.js')
@@ -45,8 +84,8 @@ block content
       borderWidth: 1
     }
 
-    for (let i = 0; i < jsonData.sleep.length; i++) {
-      let date = new Date(parseInt((jsonData.sleep[i]._id).substring(0, 8), 16) * 1000).getDate();
+    for (let i = 0; i < jsonData.exercise.length; i++) {
+      let date = new Date(parseInt((jsonData.exercise[i]._id).substring(0, 8), 16) * 1000).getDate();
 
       newChart.data.labels.push(date);
 
@@ -59,3 +98,7 @@ block content
     console.log(JSON.stringify(newChart, undefined, 2));
 
     let myChart = new Chart(ctx, newChart);
+
+  // Bootstrap core JavaScript
+  script(src='vendor/jquery/jquery.min.js')
+  script(src='vendor/bootstrap/js/bootstrap.bundle.min.js')
